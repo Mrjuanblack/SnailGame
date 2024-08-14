@@ -9,13 +9,16 @@ public class Snail : MonoBehaviour
 {
     private bool isAlive = true;
     private bool isMoving = false;
+    float distance = GameManager.instance.InitialDistance;
+    float food = GameManager.instance.InitialFood;
+    float speed = GameManager.instance.iInitialSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (!isMoving)
+            if (!isMoving && isAlive)
             {
                 StartCoroutine(COMove());
             }
@@ -33,18 +36,19 @@ public class Snail : MonoBehaviour
         if (!isMoving)
         {
             isMoving = true;
-            if (GameManager.instance.Food <= 0)
+            if (GameManager.instance.InitialFood <= 0)
             {
                 Debug.Log("Tas muerto");
                 isMoving = false;
+                isAlive = false;
                 yield return null;
             }
 
             // Se puede mover
-            yield return new WaitForSeconds((float)(GameManager.instance.DistancePerMove / GameManager.instance.Speed));
-            GameManager.instance.Distance += GameManager.instance.DistancePerMove;
+            yield return new WaitForSeconds((float)(GameManager.instance.DistancePerMove / speed));
+            distance += GameManager.instance.DistancePerMove;
 
-            GameManager.instance.Food += GameManager.instance.BaseFoodGain - (GameManager.instance.BaseFoodLoss * Mathf.Pow(GameManager.instance.DistanceFoodLoss, GameManager.instance.Distance));
+            food += GameManager.instance.BaseFoodGain - (GameManager.instance.BaseFoodLoss * Mathf.Pow(GameManager.instance.DistanceFoodLoss, distance));
 
             isMoving = false;
             this.Print();
@@ -55,7 +59,7 @@ public class Snail : MonoBehaviour
 
     private void Print()
     {
-        Debug.Log($"Distancia: {GameManager.instance.Distance}");
-        Debug.Log($"Comida: {GameManager.instance.Food}");
+        Debug.Log($"Distancia: {distance}");
+        Debug.Log($"Comida: {food}");
     }
 }

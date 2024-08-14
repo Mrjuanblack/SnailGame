@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private float food = 100;
-    [SerializeField] private float distance = 100;
+    [SerializeField] private float initialFood = 100;
+    [SerializeField] private float initialDistance = 100;
     // m/s
-    [SerializeField] private float speed = 0.00025f;
+    [SerializeField] private float initialSpeed = 0.00025f;
 
     [SerializeField] private float distancePerMove = 0.001f;
     [SerializeField] private float distanceFoodLoss = 1.05f;
@@ -28,20 +28,18 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public float Food { get => food; set => food = value; }
-    public float Distance { get => distance; set => distance = value; }
-    public float Speed { get => speed; set => speed = value; }
+    public float InitialFood { get => initialFood; }
+    public float InitialDistance { get => initialDistance; }
+    public float iInitialSpeed { get => initialSpeed; }
     public float DistancePerMove { get => distancePerMove; }
-    public float DistanceFoodLoss { get => distanceFoodLoss; set => distanceFoodLoss = value; }
-    public uint BaseFoodGain { get => baseFoodGain; set => baseFoodGain = value; }
-    public uint BaseFoodLoss { get => baseFoodLoss; set => baseFoodLoss = value; }
-    public float Gen1InitCost { get => gen1InitCost; set => gen1InitCost = value; }
-    public float Gen1MultFactor { get => gen1MultFactor; set => gen1MultFactor = value; }
-    public float BaseSpeed { get => baseSpeed; set => baseSpeed = value; }
-    public float Gen2InitCost { get => gen2InitCost; set => gen2InitCost = value; }
-    public float Gen2MultFactor { get => gen2MultFactor; set => gen2MultFactor = value; }
-
-    //private bool isMoving = false;
+    public float DistanceFoodLoss { get => distanceFoodLoss; }
+    public uint BaseFoodGain { get => baseFoodGain; }
+    public uint BaseFoodLoss { get => baseFoodLoss; }
+    public float Gen1InitCost { get => gen1InitCost; }
+    public float Gen1MultFactor { get => gen1MultFactor; }
+    public float BaseSpeed { get => baseSpeed; }
+    public float Gen2InitCost { get => gen2InitCost; }
+    public float Gen2MultFactor { get => gen2MultFactor; }
 
     private void Awake()
     {
@@ -55,24 +53,5 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this);
-    }
-
-
-    //public void MouseDown()
-    //{
-    //    if (!isMoving)
-    //        StartCoroutine(Move());
-    //}
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
