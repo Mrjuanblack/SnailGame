@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private float food;
-    private float distance;
+    private float food = 100;
+    private float distance = 100;
     // m/s
-    private float speed;
+    private float speed = 0.00025f;
 
     private float distancePerMove = 0.001f;
     private float distanceFoodLoss = 1.05f;
@@ -25,6 +27,12 @@ public class GameManager : MonoBehaviour
 
     private bool isMoving = false;
 
+    public void MouseDown()
+    {
+        if (!isMoving)
+            StartCoroutine(Move());
+    }
+
     public IEnumerator Move()
     {
         if (!isMoving)
@@ -38,7 +46,7 @@ public class GameManager : MonoBehaviour
             }
 
             // Se puede mover
-            yield return new WaitForSeconds((float)(distancePerMove/speed));
+            yield return new WaitForSeconds((float)(distancePerMove / speed));
             distance += distancePerMove;
 
             food += baseFoodGain - (baseFoodLoss * Mathf.Pow(distanceFoodLoss, distance));
@@ -59,12 +67,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
