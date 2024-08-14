@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class Snail : MonoBehaviour
 {
-    private decimal distance = 0;
+    private bool isAlive = true;
 
-    // m/s
-    private decimal speed = 1;
-    private decimal food = 0;
     // Start is called before the first frame update
     void Start()
     {
