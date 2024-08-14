@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 160709656}
   - component: {fileID: 160709655}
   - component: {fileID: 160709654}
-  - component: {fileID: 160709653}
   - component: {fileID: 160709657}
   m_Layer: 5
   m_Name: Snail
@@ -165,30 +164,6 @@ RectTransform:
   m_AnchoredPosition: {x: -470, y: -242}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &160709653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160709651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6425e44edfa843c47b4447f672b2ee77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  food: 100
-  distance: 100
-  speed: 0.00025
-  distancePerMove: 0.001
-  distanceFoodLoss: 1.05
-  baseFoodGain: 3
-  baseFoodLoss: 2
-  gen1InitCost: 4
-  gen1MultFactor: 1.095
-  baseSpeed: 0.00025
-  gen2InitCost: 8
-  gen2MultFactor: 1.5
 --- !u!114 &160709654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,19 +207,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 160709655}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 160709653}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: MouseDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &160709655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,9 +371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6425e44edfa843c47b4447f672b2ee77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: 100
-  distance: 100
-  speed: 0.00025
+  initialFood: 100
+  initialDistance: 100
+  initialSpeed: 0.00025
   distancePerMove: 0.001
   distanceFoodLoss: 1.05
   baseFoodGain: 3
