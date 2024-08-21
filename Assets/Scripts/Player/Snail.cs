@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class Snail : MonoBehaviour, IFoodObserver, IDistanceObserver
+public class Snail : MonoBehaviour
 {
     private bool isAlive = true;
     private bool isMoving = false;
     float distance;
     float food;
     float speed;
+
+    // UI Components
+    // TEMP BUTTON while we test.
+    // TODO: Clicks on the screen (except on top of ui elements) should trigger the snail to move
+    public Button button;
+    public TextMeshProUGUI distanceUI;
+    public TextMeshProUGUI foodUI;
+
+    // Observer
+    SnailObservers observers;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +32,7 @@ public class Snail : MonoBehaviour, IFoodObserver, IDistanceObserver
         this.food = GameManager.instance.InitialFood;
         this.speed = GameManager.instance.iInitialSpeed;
 
-        this.GetComponent<Button>().onClick.AddListener(() =>
+        this.button.onClick.AddListener(() =>
         {
             if (!isMoving && isAlive)
             {
@@ -29,8 +40,7 @@ public class Snail : MonoBehaviour, IFoodObserver, IDistanceObserver
             }
         });
 
-        // Add observers
-        GameManager.instance.AddFoodObserver(this);
+        observers = new SnailObservers();
     }
 
     // Update is called once per frame
@@ -43,6 +53,8 @@ public class Snail : MonoBehaviour, IFoodObserver, IDistanceObserver
     {
         if (!this.isMoving)
         {
+            var prevDistance = this.distance;
+
             this.isMoving = true;
             if (GameManager.instance.InitialFood <= 0)
             {
@@ -51,11 +63,25 @@ public class Snail : MonoBehaviour, IFoodObserver, IDistanceObserver
                 this.isAlive = false;
                 yield return null;
             }
+            
+            // Update the distance over time
+            float startTime = Time.time;
+
+            // TODO: Test increasing distance per move or speed when the snail is already inside this while loop
+            while (Time.time - startTime < (float)(GameManager.instance.DistancePerMove / speed))
+            {
+                var ellapsedTime = Time.time - startTime;
+                this.UpdateDistance(prevDistance + (ellapsedTime * speed));
+                yield return null;
+            }
+
+            // Fix the distnace precision, since the multiplication with the time won't give the exact distance defined in the game manager
+            this.UpdateDistance(prevDistance + GameManager.instance.DistancePerMove);
 
             // Se puede mover
             // TODO: Use speed upgrades for this
-            yield return new WaitForSeconds((float)(GameManager.instance.DistancePerMove / speed));
-            this.UpdateDistance();
+            // yield return new WaitForSeconds((float)(GameManager.instance.DistancePerMove / speed));
+            
             
 
             // Calculate the food change
@@ -79,30 +105,22 @@ public class Snail : MonoBehaviour, IFoodObserver, IDistanceObserver
         // Get the food generator (the player should always start with it), maybe we should put it outside of the list?
         var gatherFoodGen = GameManager.instance.Generators.FirstOrDefault(gen => gen is GatherMoreFoodGenerator) as GatherMoreFoodGenerator;
         this.food += (gatherFoodGen.BaseFoodGain * gatherFoodGen.NumOfGenerators) - (gatherFoodGen.BaseFoodLoss * Mathf.Pow(GameManager.instance.DistanceFoodLoss, distance));
-        this.NotifyFoodAmountChanged(this.food);
+
+        // Update UI elements
+        this.foodUI.text = this.food.ToString("0.00");
+
+        // Notify observers
+        this.observers.NotifyFoodAmountChanged(this.food);
     }
 
-    private void UpdateDistance()
+    private void UpdateDistance(float newDistance)
     {
-        this.distance += GameManager.instance.DistancePerMove;
-        this.NotifyDistanceChanged(this.distance);
-    }
+        this.distance = newDistance;
 
+        // Update UI elements
+        this.distanceUI.text = this.distance.ToString("0.0000") + " m";
 
-    // Observers logic
-    public void NotifyFoodAmountChanged(float newFoodAmount)
-    {
-        if (newFoodAmount > 15)
-        {
-            Debug.Log("Something unlocked");
-        }        
-    }
-
-    public void NotifyDistanceChanged(float newDistance)
-    {
-        if (newDistance > 1)
-        {
-            Debug.Log("Distance unlocked something!");
-        }
+        // Notify observers
+        this.observers.NotifyDistanceChanged(this.distance);
     }
 }
