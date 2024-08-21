@@ -914,19 +914,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1180288654}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1718247827}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: UpgradesSlideIn
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1180288654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1484,6 +1472,7 @@ GameObject:
   - component: {fileID: 1718247826}
   - component: {fileID: 1718247825}
   - component: {fileID: 1718247827}
+  - component: {fileID: 1718247828}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1520,7 +1509,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718247823}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1561,7 +1550,7 @@ Animator:
   m_GameObject: {fileID: 1718247823}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f61343e639f797940b019239a4762378, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e06223dde592744b909766a658135f6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1572,6 +1561,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1718247828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718247823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cede85e0aebaa4290c8dead5619560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1180288653}
 --- !u!1 &1794777419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,7 +1667,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856446196}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
