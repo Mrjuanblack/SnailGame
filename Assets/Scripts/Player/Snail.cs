@@ -30,7 +30,7 @@ public class Snail : MonoBehaviour
     {
         this.distance = GameManager.instance.InitialDistance;
         this.food = GameManager.instance.InitialFood;
-        this.speed = GameManager.instance.iInitialSpeed;
+        this.speed = GameManager.instance.InitialSpeed;
 
         this.button.onClick.AddListener(() =>
         {
@@ -41,6 +41,8 @@ public class Snail : MonoBehaviour
         });
 
         observers = new SnailObservers();
+        
+        this.foodUI.text = this.food.ToString("0.00");
     }
 
     // Update is called once per frame
@@ -91,6 +93,11 @@ public class Snail : MonoBehaviour
             this.Print();
         }
         yield return null;
+    }
+
+    public float GetFood()
+    {
+        return this.food;
     }
 
 
