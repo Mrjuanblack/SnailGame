@@ -41,7 +41,7 @@ public class Snail : MonoBehaviour
         });
 
         observers = new SnailObservers();
-        
+
         this.foodUI.text = this.food.ToString("0.00");
     }
 
@@ -87,7 +87,10 @@ public class Snail : MonoBehaviour
             
 
             // Calculate the food change
-            this.UpdateFoodAmount();
+            // Get the food generator (the player should always start with it), maybe we should put it outside of the list?
+            var gatherFoodGen = GameManager.instance.Generators.FirstOrDefault(gen => gen is GatherMoreFoodGenerator) as GatherMoreFoodGenerator;
+            var newFoodAmount = this.food + (gatherFoodGen.BaseFoodGain * gatherFoodGen.NumOfGenerators) - (gatherFoodGen.BaseFoodLoss * Mathf.Pow(GameManager.instance.DistanceFoodLoss, distance));
+            this.UpdateFoodAmount(newFoodAmount);
 
             this.isMoving = false;
             this.Print();
@@ -107,11 +110,9 @@ public class Snail : MonoBehaviour
         Debug.Log($"Food: {food}");
     }
 
-    private void UpdateFoodAmount()
+    public void UpdateFoodAmount(float newFoodAmount)
     {
-        // Get the food generator (the player should always start with it), maybe we should put it outside of the list?
-        var gatherFoodGen = GameManager.instance.Generators.FirstOrDefault(gen => gen is GatherMoreFoodGenerator) as GatherMoreFoodGenerator;
-        this.food += (gatherFoodGen.BaseFoodGain * gatherFoodGen.NumOfGenerators) - (gatherFoodGen.BaseFoodLoss * Mathf.Pow(GameManager.instance.DistanceFoodLoss, distance));
+        this.food = newFoodAmount;
 
         // Update UI elements
         this.foodUI.text = this.food.ToString("0.00");
@@ -120,7 +121,7 @@ public class Snail : MonoBehaviour
         this.observers.NotifyFoodAmountChanged(this.food);
     }
 
-    private void UpdateDistance(float newDistance)
+    public void UpdateDistance(float newDistance)
     {
         this.distance = newDistance;
 

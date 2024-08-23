@@ -82,8 +82,9 @@ public class GameManager : MonoBehaviour
         upgradeItem.upgradeEffectText.text = (this.generators[newGenIndex] as IGenerator).GetEffectText();
 
         upgradeItem.buyButton.onClick.AddListener(() => {
-            if (snail.GetFood() > this.generators[newGenIndex].GetCurrentCost())
+            if (this.snail.GetFood() >= this.generators[newGenIndex].GetCurrentCost())
             {
+                this.snail.UpdateFoodAmount(this.snail.GetFood() - this.generators[newGenIndex].GetCurrentCost());
                 var updatedGen = this.generators[newGenIndex];
                 updatedGen.AddGenerator(1);
                 upgradeItem.upgradeEffectText.text = (updatedGen as IGenerator).GetEffectText();
