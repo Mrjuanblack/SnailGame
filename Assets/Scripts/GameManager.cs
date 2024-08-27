@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -71,27 +73,35 @@ public class GameManager : MonoBehaviour
     {
         this.generators.Add(generator);
         var newGenIndex = this.generators.Count - 1;
-        
+
         var newGenGameObject = Instantiate(upgradePrefab, upgradesContainer.transform);
         var upgradeItem = newGenGameObject.GetComponent<UpgradeItem>();
-        upgradeItem.upgradeName.text = this.generators[newGenIndex].Name;
-        upgradeItem.upgradeDescription.text = this.generators[newGenIndex].Description;
-
-        upgradeItem.buyText.text = $"Buy {this.generators[newGenIndex].GetCurrentCost():0.00}";
-
-        upgradeItem.upgradeEffectText.text = (this.generators[newGenIndex] as IGenerator).GetEffectText();
-
-        upgradeItem.buyButton.onClick.AddListener(() => {
-            if (this.snail.GetFood() >= this.generators[newGenIndex].GetCurrentCost())
-            {
-                this.snail.UpdateFoodAmount(this.snail.GetFood() - this.generators[newGenIndex].GetCurrentCost());
-                var updatedGen = this.generators[newGenIndex];
-                updatedGen.AddGenerator(1);
-                upgradeItem.upgradeEffectText.text = (updatedGen as IGenerator).GetEffectText();
-                upgradeItem.buyText.text = $"Buy {updatedGen.GetCurrentCost():0.00}";
-
-                this.generators[newGenIndex] = updatedGen;
-            }
-        });
+        //moved logic to the upgrade item
+        upgradeItem.Setup(newGenIndex, upgradeItem, snail, generators[newGenIndex]);
+        //setup(newGenIndex, upgradeItem, snail, generators[newGenIndex]);
     }
+
+    //private void setup(int newGenIndex, UpgradeItem upgradeItem, Snail snail, BaseGenerator baseGenerator)
+    //{
+    //    upgradeItem.upgradeName.text = baseGenerator.Name;
+    //    upgradeItem.upgradeDescription.text = baseGenerator.Description;
+
+    //    upgradeItem.buyText.text = $"Buy {baseGenerator.GetCurrentCost():0.00}";
+
+    //    upgradeItem.upgradeEffectText.text = (baseGenerator as IGenerator).GetEffectText();
+
+    //    upgradeItem.buyButton.onClick.AddListener(() =>
+    //    {
+    //        if (snail.GetFood() >= baseGenerator.GetCurrentCost())
+    //        {
+    //            snail.UpdateFoodAmount(snail.GetFood() - baseGenerator.GetCurrentCost());
+    //            var updatedGen = baseGenerator;
+    //            updatedGen.AddGenerator(1);
+    //            upgradeItem.upgradeEffectText.text = (updatedGen as IGenerator).GetEffectText();
+    //            upgradeItem.buyText.text = $"Buy {updatedGen.GetCurrentCost():0.00}";
+
+    //            baseGenerator = updatedGen;
+    //        }
+    //    });
+    //}
 }

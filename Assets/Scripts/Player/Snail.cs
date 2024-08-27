@@ -40,6 +40,8 @@ public class Snail : MonoBehaviour
             }
         });
 
+        
+
         observers = new SnailObservers();
 
         this.foodUI.text = this.food.ToString("0.00");
